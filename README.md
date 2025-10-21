@@ -28,4 +28,4 @@ This project is built using modern web development practices:
 
 This project is deployed on GitHub Pages:
 
-- [ADD LINK HERE](https://ryanscode-hue.github.io/se_project_todo-app/)
+- [To-Do App](https://ryanscode-hue.github.io/se_project_todo-app/)
