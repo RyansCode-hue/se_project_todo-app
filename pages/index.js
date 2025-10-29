@@ -17,25 +17,6 @@ formValidator.enableValidation();
 // Initialize counter
 const todoCounter = new TodoCounter(initialTodos, ".counter__text");
 
-// Function to generate todo element
-const generateTodo = (item) => {
-  const todo = new Todo(item, "#todo-template", handleCheck, handleDelete);
-  return todo.getView();
-};
-
-// Initialize section
-const section = new Section({
-  items: initialTodos,
-  renderer: (item) => {
-    const todoElement = generateTodo(item);
-    section.addItem(todoElement);
-  },
-  containerSelector: ".todos__list",
-});
-
-// Render initial todos
-section.renderItems();
-
 // Handle checkbox toggle
 function handleCheck(completed) {
   todoCounter.updateCompleted(completed);
@@ -49,6 +30,28 @@ function handleDelete(completed) {
   }
 }
 
+// Function to generate todo element
+const generateTodo = (item) => {
+  const todo = new Todo(item, "#todo-template", handleCheck, handleDelete);
+  return todo.getView();
+};
+
+// Helper function to create and append a todo
+const renderTodo = (item) => {
+  const todoElement = generateTodo(item);
+  section.addItem(todoElement);
+};
+
+// Initialize section
+const section = new Section({
+  items: initialTodos,
+  renderer: renderTodo,
+  containerSelector: ".todos__list",
+});
+
+// Render initial todos
+section.renderItems();
+
 // Handle form submission
 function handleAddTodoSubmit(inputValues) {
   const name = inputValues.name;
@@ -61,8 +64,7 @@ function handleAddTodoSubmit(inputValues) {
   const id = uuidv4();
   const values = { name, date, id };
 
-  const todoElement = generateTodo(values);
-  section.addItem(todoElement);
+  renderTodo(values);
   todoCounter.updateTotal(true);
 
   addTodoPopup.close();
